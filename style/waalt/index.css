@@ -775,7 +775,3 @@ div.switch div.ball {
     transform: scale(1.2);
   }
 }
-/* PROVISIONAL. WE PROMISE! */
-a[data-icon="bolt"] {
-  display: none;
-}

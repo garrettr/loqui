@@ -7,8 +7,9 @@ var Providers = {
     'hangouts': {
       longname: 'Google Hangouts',
       altname: 'Gmail',
-      BOSH: {
-        host: 'https://app.loqui.im/http-bind/',
+      connector: {
+        type: 'XMPP',
+        host: 'wss://app.loqui.im/ws-bind/',
         timeout: 300
       },
       autodomain: 'gmail.com',
@@ -19,14 +20,14 @@ var Providers = {
         pass: 'Password',
         placeholder: 'username@gmail.com'
       },
-      notice: true,
-      connector: 'XMPP'
+      notice: true
     },
     'facebook': {
       longname: 'Facebook Chat',
       altname: 'Facebook',
-      BOSH: {
-        host: 'https://app.loqui.im/http-bind/',
+      connector: {
+        type: 'XMPP',
+        host: 'wss://app.loqui.im/ws-bind/',
         timeout: 300
       },
       autodomain: 'chat.facebook.com',
@@ -36,13 +37,13 @@ var Providers = {
         user: 'ProviderUsername',
         pass: 'Password',
       },
-      notice: true,
-      connector: 'XMPP'
+      notice: true
     },
     'nimbuzz': {
       longname: 'Nimbuzz',
-      BOSH: {
-        host: 'https://app.loqui.im/http-bind/',
+      connector: {
+        type: 'XMPP',
+        host: 'wss://app.loqui.im/ws-bind/',
         timeout: 300
       },
       autodomain: 'nimbuzz.com',
@@ -51,14 +52,14 @@ var Providers = {
       terms: {
         user: 'Username',
         pass: 'Password'
-      },
-      connector: 'XMPP'
+      }
     },
     'ovi': {
       longname: 'Nokia ovi',
       altname: 'ovi',
-      BOSH: {
-        host: 'https://app.loqui.im/http-bind/',
+      connector: {
+        type: 'XMPP',
+        host: 'wss://app.loqui.im/ws-bind/',
         timeout: 300
       },
       autodomain: 'chat.ovi.com',
@@ -67,14 +68,14 @@ var Providers = {
       terms: {
         user: 'Username',
         pass: 'Password'
-      },
-      connector: 'XMPP'
+      }
     },
     'lync': {
       longname: 'Microsoft Lync',
       altname: 'Lync',
-      BOSH: {
-        host: 'https://app.loqui.im/http-bind/',
+      connector: {
+        type: 'XMPP',
+        host: 'wss://app.loqui.im/ws-bind/',
         timeout: 300
       },
       autodomain: false,
@@ -84,13 +85,13 @@ var Providers = {
         user: 'ProviderAddress',
         pass: 'Password',
         placeholder: 'username@example.com'
-      },
-      connector: 'XMPP'
+      }
     },
     'xmpp': {
       longname: 'XMPP/Jabber',
-      BOSH: {
-        host: 'https://app.loqui.im/http-bind/',
+      connector: {
+        type: 'XMPP',
+        host: 'wss://app.loqui.im/ws-bind/',
         timeout: 300
       },
       autodomain: false,
@@ -99,8 +100,7 @@ var Providers = {
         user: 'FullJID',
         pass: 'Password',
         placeholder: 'username@example.com'
-      },
-      connector: 'XMPP'
+      }
     }
   },
   

@@ -48,9 +48,9 @@ document.addEventListener("visibilitychange", function() {
   for (var i in App.accounts) {
     var account = App.accounts[i];
     if (document.hidden) {
-      account.connector.presenceSend('away');
+      account.connector.presence.send('away');
     } else {
-      account.connector.presenceSend();
+      account.connector.presence.send();
     }
   }
 });

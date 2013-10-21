@@ -9,7 +9,7 @@ var Plus = {
     var account = App.accounts[index];
     if (to && App.online && account.connector.connection.connected){
       if (account.supports('bolt')) {
-        account.connector.connection.attention.request(to);
+        account.connector.attention.request(to);
         window.navigator.vibrate([100,30,100,30,100,200,200,30,200,30,200,200,100,30,100,30,100]);
         App.audio('thunder');
         console.log('Sent a bolt to', to);

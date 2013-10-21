@@ -4,7 +4,7 @@ var App = {
 
   name: 'Loqui IM',
   shortName: 'Loqui',
-  version: 'v0.1.2',
+  version: 'v0.2.0',
   connectors: [],
   toSave: [],
   accounts: [],
@@ -29,7 +29,7 @@ var App = {
     },
     Account: {
       core: {
-        resource: this.shortname + '-' + (Lungo.Core.environment().os ? Lungo.Core.environment().os.name : 'PC')
+        resource: 'Loqui' + '-' + (Lungo.Core.environment().os ? Lungo.Core.environment().os.name : 'PC')
       }
     },
     Chat: {

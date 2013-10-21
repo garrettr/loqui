@@ -8,7 +8,7 @@ var Message = function (account, core) {
   // Try to send this message
   this.send = function (delay, justSend) {
     if (App.online && account.connector.connection.connected) {
-      account.connector.connection.Messaging.send(this.core.to, this.core.text, delay ? this.core.stamp : delay);
+      account.connector.send(this.core.to, this.core.text, delay ? this.core.stamp : delay);
     }
     if (!justSend) {
       var ci = this.account.chatFind(this.core.to);
