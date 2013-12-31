@@ -111,6 +111,7 @@
         <h2 data-l10n-id='Actions'>Actions</h2>
         <div class='buttongroup'>
           <button class='contactAdd' data-l10n-id='ContactAdd' data-menu-onclick='contactAdd' >Add a new contact</button>
+          <button class='otrMenu' data-l10n-id='OTRMenu' data-menu-onclick='otrMenu'>OTR</button>
           <button class='accountRemove' data-l10n-id='AccountRemove' data-menu-onclick='accountRemove'>Remove this account</button>
           <button class='accountPurchase' data-l10n-id='Purchase' data-menu-onclick='purchase'>Purchase Whatsapp</button>
         </div>
@@ -183,6 +184,23 @@
         <button class='add' data-l10n-id='Add'>Add</button>
       </div>
     </article>
+  </section>
+  <section id='otrMenu' data-transition='slide' class="fix head profile">
+    <header data-l10n-title='OTRSettings' data-title='OTR Settings'>
+      <nav class='on-left'>
+        <button data-view-section='back' data-icon='chevron-left' class='left'></button>
+      </nav>
+    </header>
+    <div id='otrSetup'>
+      <p>You need to set up OTR</p>
+      <div class='buttongroup'>
+        <button id='setupOtr'>Setup OTR</button>
+      </div>
+    </div>
+    <div id='otrSettings'>
+      <p>You have OTR set up</p>
+      <p>Your fingerprint is: <span id='otrKeyFingerprint'></span></p>
+    </div>
   </section>
   <section id='chat' data-transition='slide' class='fix head'>
     <header>

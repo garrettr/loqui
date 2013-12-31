@@ -1,13 +1,23 @@
 'use strict';
 
 var Account = function (core) {
-  
+
   // Holds only account data and no functions
   this.core = core;
   this.core.sendQ = this.core.sendQ || [];
   this.connector = new App.connectors[Providers.data[this.core.provider].connector.type](this);
   this.chats = [];
-  
+  this.OTR = {};
+
+  if ('OTR' in core) {
+    $.extend(this.OTR, core.OTR);
+    if (core.OTR.key) { // inflate the packed key
+      this.OTR.key = DSA.parsePrivate(core.OTR.key);
+    }
+  } else {
+    $.extend(this.OTR, App.defaults.Account.core.OTR);
+  }
+
   // Test account
   this.test = function () {
     this.connector.connect({
@@ -404,6 +414,51 @@ var Account = function (core) {
     var index = Accounts.find(this.core.fullJid || this.core.user);
     App.accountsCores[index] = this.core;
     App.smartupdate('accountsCores');
+  }
+
+  this.OTRMenu = function () {
+    var account = this;
+
+    function OTRSetup() {
+      $('section#otrMenu div#otrSetup').show();
+      $('section#otrMenu div#otrSettings').hide();
+
+      $('button#setupOtr').on('click', function(e) {
+        // TODO: notification message cut off at end
+        Lungo.Notification.show('key', 'Generating OTR key...', 0);
+        // The Lungo notification is triggered asynchronously, so we need to
+        // delay the start of the long key generation operation a bit to make
+        // sure it shows up
+        setTimeout(function generateOTRKey() {
+          // TODO: sometimes this takes long enough that the whole screen goes
+          // gray, which is probably the beginning of triggering a "script
+          // unresponsive"-type mechanism. Generate in web worker?
+          account.OTR.enabled = true;
+          account.OTR.key = new DSA();
+          // deflate this.OTR into this.core.OTR, which must be json-
+          // serializable in order to be persisted by the storage backend
+          account.core.OTR = $.extend({}, account.OTR, {
+            key: account.OTR.key.packPrivate()
+          })
+          account.save();
+          Lungo.Notification.hide();
+          OTRSettings();
+        }, 1000);
+      });
+    }
+
+    function OTRSettings() {
+      $('section#otrMenu div#otrSetup').hide();
+      $('section#otrMenu div#otrSettings').show();
+      $('span#otrKeyFingerprint').html(account.OTR.key.fingerprint());
+    }
+
+    if (!account.OTR.enabled) {
+      OTRSetup();
+    } else {
+      OTRSettings();
+    }
+    Lungo.Router.section('otrMenu');
   }
 
 }
