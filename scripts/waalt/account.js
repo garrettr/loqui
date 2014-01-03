@@ -451,6 +451,18 @@ var Account = function (core) {
       $('section#otrMenu div#otrSetup').hide();
       $('section#otrMenu div#otrSettings').show();
       $('span#otrKeyFingerprint').html(account.OTR.key.fingerprint());
+
+      if (account.OTR.logging) {
+        $('input#logOtrChats').attr('checked', account.OTR.logging);
+      }
+      $('input#logOtrChats').on('change', function () {
+        // TODO doing everyting twice for OTR and core.OTR is going to get old
+        // fast. Handle all of this in account.save() instead?
+        account.OTR.logging = this.checked;
+        account.core.OTR.logging = this.checked;
+        // XXX: Is this inefficient?
+        account.save();
+      });
     }
 
     if (!account.OTR.enabled) {

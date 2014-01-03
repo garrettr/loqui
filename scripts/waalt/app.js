@@ -33,7 +33,8 @@ var App = {
         resource: 'Loqui' + '-' + (Lungo.Core.environment().os ? Lungo.Core.environment().os.name : 'PC'),
         OTR: {
           enabled: false,
-          key: null
+          key: null,
+          logging: false
         }
       }
     },
