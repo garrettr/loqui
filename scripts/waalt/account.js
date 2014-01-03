@@ -412,8 +412,21 @@ var Account = function (core) {
   // Save to store
   this.save = function () {
     var index = Accounts.find(this.core.fullJid || this.core.user);
+    this._deflateOtrCore();
     App.accountsCores[index] = this.core;
     App.smartupdate('accountsCores');
+  }
+
+  this._deflateOtrCore = function () {
+    // deflate this.OTR into this.core.OTR, which must be json-
+    // serializable in order to be persisted by the storage backend
+    this.core.OTR = $.extend({}, this.OTR, {
+      // TODO: could this be more efficient? With this design, we call
+      // packPrivate every time the account is saved, when it is only needed
+      // every time a new longterm key is generated (typically happens once, or
+      // very infrequently)
+      key: this.OTR.key.packPrivate()
+    });
   }
 
   this.OTRMenu = function () {
@@ -435,11 +448,6 @@ var Account = function (core) {
           // unresponsive"-type mechanism. Generate in web worker?
           account.OTR.enabled = true;
           account.OTR.key = new DSA();
-          // deflate this.OTR into this.core.OTR, which must be json-
-          // serializable in order to be persisted by the storage backend
-          account.core.OTR = $.extend({}, account.OTR, {
-            key: account.OTR.key.packPrivate()
-          })
           account.save();
           Lungo.Notification.hide();
           OTRSettings();
@@ -450,17 +458,16 @@ var Account = function (core) {
     function OTRSettings() {
       $('section#otrMenu div#otrSetup').hide();
       $('section#otrMenu div#otrSettings').show();
+
+      // Display OTR longterm key's fingerprint
       $('span#otrKeyFingerprint').html(account.OTR.key.fingerprint());
 
+      // Setting to log OTR-encrypted chats
       if (account.OTR.logging) {
         $('input#logOtrChats').attr('checked', account.OTR.logging);
       }
       $('input#logOtrChats').on('change', function () {
-        // TODO doing everyting twice for OTR and core.OTR is going to get old
-        // fast. Handle all of this in account.save() instead?
         account.OTR.logging = this.checked;
-        account.core.OTR.logging = this.checked;
-        // XXX: Is this inefficient?
         account.save();
       });
     }
